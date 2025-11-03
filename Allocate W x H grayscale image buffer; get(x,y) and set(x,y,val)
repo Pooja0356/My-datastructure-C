@@ -1,0 +1,47 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef struct {
+    int W, H;
+    unsigned char *buf; // 0..255 grayscale
+} Image;
+
+Image *create(int W, int H) {
+    Image *img = (Image*)malloc(sizeof(Image));
+    img->W = W; img->H = H;
+    img->buf = (unsigned char*)malloc(W * H);
+    return img;
+}
+
+void setpix(Image *img, int x, int y, unsigned char v) {
+    if (x < 0 || x >= img->W || y < 0 || y >= img->H) return;
+    img->buf[y * img->W + x] = v;
+}
+
+unsigned char getpix(Image *img, int x, int y) {
+    if (x < 0 || x >= img->W || y < 0 || y >= img->H) return 0;
+    return img->buf[y * img->W + x];
+}
+
+void destroy(Image *img) {
+    if (!img) return;
+    free(img->buf);
+    free(img);
+}
+
+int main() {
+    int W, H;
+    printf("Enter W H: ");
+    if (scanf("%d %d", &W, &H) != 2) return 0;
+    Image *img = create(W, H);
+    for (int y = 0; y < H; y++)
+        for (int x = 0; x < W; x++)
+            setpix(img, x, y, (unsigned char)((x + y) % 256));
+    printf("Image:\n");
+    for (int y = 0; y < H; y++) {
+        for (int x = 0; x < W; x++) printf("%3d ", getpix(img, x, y));
+        printf("\n");
+    }
+    destroy(img);
+    return 0;
+}
