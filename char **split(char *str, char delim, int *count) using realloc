@@ -1,0 +1,43 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+char **split(char *str, char delim, int *count) {
+    int cap = 4, cnt = 0;
+    char **arr = (char**)malloc(cap * sizeof(char*));
+    char *start = str;
+    while (1) {
+        char *p = start;
+        while (*p && *p != delim) p++;
+        int len = p - start;
+        char *tok = (char*)malloc(len + 1);
+        memcpy(tok, start, len);
+        tok[len] = '\0';
+        if (cnt == cap) {
+            cap *= 2;
+            char **tmp = (char**)realloc(arr, cap * sizeof(char*));
+            if (!tmp) { /* omit error cleanup for brevity */ ; }
+            arr = tmp;
+        }
+        arr[cnt++] = tok;
+        if (*p == '\0') break;
+        start = p + 1;
+    }
+    *count = cnt;
+    return arr;
+}
+
+int main() {
+    char s[256];
+    printf("Enter text (no spaces expected): ");
+    if (scanf("%255s", s) != 1) return 0;
+    int count;
+    char **toks = split(s, ',', &count);
+    printf("Tokens (%d):\n", count);
+    for (int i = 0; i < count; i++) {
+        printf("%s\n", toks[i]);
+        free(toks[i]);
+    }
+    free(toks);
+    return 0;
+}
