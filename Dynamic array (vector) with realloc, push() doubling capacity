@@ -1,0 +1,42 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef struct {
+    int *data;
+    int size;
+    int cap;
+} Vec;
+
+void init(Vec *v) { v->data = NULL; v->size = 0; v->cap = 0; }
+
+int push(Vec *v, int x) {
+    if (v->size == v->cap) {
+        int newcap = (v->cap == 0) ? 1 : v->cap * 2;
+        int *tmp = (int*)realloc(v->data, newcap * sizeof(int));
+        if (!tmp) return 0;
+        v->data = tmp;
+        v->cap = newcap;
+    }
+    v->data[v->size++] = x;
+    return 1;
+}
+
+void freev(Vec *v) { free(v->data); v->data = NULL; v->size = v->cap = 0; }
+
+int main() {
+    Vec v;
+    init(&v);
+    int n, x;
+    printf("How many to push: ");
+    if (scanf("%d", &n) != 1) return 0;
+    printf("Enter values:\n");
+    for (int i = 0; i < n; i++) {
+        scanf("%d", &x);
+        push(&v, x);
+    }
+    printf("Vector size=%d cap=%d\nElements: ", v.size, v.cap);
+    for (int i = 0; i < v.size; i++) printf("%d ", v.data[i]);
+    printf("\n");
+    freev(&v);
+    return 0;
+}
