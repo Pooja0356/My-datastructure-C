@@ -1,0 +1,57 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef struct Node {
+    int val;
+    struct Node *next;
+} Node;
+
+Node* newnode(int v) {
+    Node *n = (Node*)malloc(sizeof(Node));
+    n->val = v; n->next = NULL;
+    return n;
+}
+
+void freeall(Node *head) {
+    while (head) {
+        Node *t = head->next;
+        free(head);
+        head = t;
+    }
+}
+
+int main() {
+    int n;
+    printf("Enter number of nodes: ");
+    if (scanf("%d", &n) != 1 || n <= 0) return 0;
+    Node *head = NULL, *tail = NULL;
+    printf("Enter values:\n");
+    for (int i = 0; i < n; i++) {
+        int v; scanf("%d", &v);
+        Node *x = newnode(v);
+        if (!head) head = tail = x; else { tail->next = x; tail = x; }
+    }
+
+    int k;
+    printf("Enter k (delete k-th from end): ");
+    scanf("%d", &k);
+
+    Node dummy; dummy.next = head;
+    Node *first = &dummy, *second = &dummy;
+    for (int i = 0; i < k + 1; i++) {
+        if (!first) { printf("k too large\n"); freeall(head); return 0; }
+        first = first->next;
+    }
+    while (first) { first = first->next; second = second->next; }
+    Node *del = second->next;
+    if (del) {
+        second->next = del->next;
+        free(del);
+    }
+    head = dummy.next;
+    printf("List after deletion:\n");
+    for (Node *p = head; p; p = p->next) printf("%d ", p->val);
+    printf("\n");
+    freeall(head);
+    return 0;
+}
