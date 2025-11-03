@@ -1,0 +1,37 @@
+//pointer-1
+#include<stdio.h>
+int main(){
+    int arr[]={1,2,3,4,5};
+    int *ptr=arr;
+    int sum=0;
+    int n=5;
+    for(int i=0;i<n;i++){
+        sum+= *(ptr+i);
+    }
+    printf("SUM=%d\n",sum);
+    return 0;
+}
+//Pointer-2
+#include<stdio.h>
+int main(){
+    int arr[]={1,2,3};
+    int *p=arr;
+    int n=3;
+    for(int i=0; i<n; i++){
+        for(int j=0;j<n;j++){
+            printf("(%d,%d)\n",*(p+i),*(p+j));
+        }
+    }
+    return 0;
+}
+#include<stdio.h>
+int main(){
+    int a=10,b=20;
+    int *p1=&a, *p2=&b;
+    int temp;
+    temp=*p1;
+    *p1=*p2;
+    *p2=temp;
+    printf("After swap: a=%d,b=%d\n",a,b);
+    return 0;
+}
