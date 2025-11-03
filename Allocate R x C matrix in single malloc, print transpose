@@ -1,0 +1,26 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+int main() {
+    int R, C;
+    printf("Enter R C: ");
+    if (scanf("%d %d", &R, &C) != 2 || R <= 0 || C <= 0) return 0;
+
+    int *mat = (int*)malloc(R * C * sizeof(int));
+    if (!mat) return 0;
+
+    printf("Enter %d elements:\n", R * C);
+    for (int i = 0; i < R; i++)
+        for (int j = 0; j < C; j++)
+            scanf("%d", mat + i * C + j);
+
+    printf("Transpose:\n");
+    for (int j = 0; j < C; j++) {
+        for (int i = 0; i < R; i++)
+            printf("%d ", *(mat + i * C + j));
+        printf("\n");
+    }
+
+    free(mat);
+    return 0;
+}
