@@ -1,0 +1,33 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+int main() {
+    int n1, n2;
+    printf("Enter sizes n1 n2: ");
+    if (scanf("%d %d", &n1, &n2) != 2) return 0;
+    int *a = (int*)malloc(n1 * sizeof(int));
+    int *b = (int*)malloc(n2 * sizeof(int));
+    printf("Enter %d sorted for A:\n", n1);
+    for (int i = 0; i < n1; i++) scanf("%d", &a[i]);
+    printf("Enter %d sorted for B:\n", n2);
+    for (int i = 0; i < n2; i++) scanf("%d", &b[i]);
+
+    int *m = (int*)malloc((n1 + n2) * sizeof(int));
+    int i = 0, j = 0, k = 0;
+    while (i < n1 && j < n2) {
+        int val = (a[i] < b[j]) ? a[i++] : b[j++];
+        if (k == 0 || m[k-1] != val) m[k++] = val;
+    }
+    while (i < n1) { if (k==0 || m[k-1] != a[i]) m[k++] = a[i++]; else i++; }
+    while (j < n2) { if (k==0 || m[k-1] != b[j]) m[k++] = b[j++]; else j++; }
+
+    int *shrink = (int*)realloc(m, k * sizeof(int));
+    if (shrink) m = shrink;
+
+    printf("Merged unique array (size=%d):\n", k);
+    for (int t = 0; t < k; t++) printf("%d ", m[t]);
+    printf("\n");
+
+    free(a); free(b); free(m);
+    return 0;
+}
