@@ -1,0 +1,25 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+char *my_strdup(const char *src) {
+    const char *s = src;
+    while (*s) s++;
+    size_t len = s - src;
+    char *dst = (char*)malloc(len + 1);
+    if (!dst) return NULL;
+    char *p = dst;
+    while (*src) *p++ = *src++;
+    *p = '\0';
+    return dst;
+}
+
+int main() {
+    char str[100];
+    printf("Enter string: ");
+    if (scanf("%99s", str) != 1) return 0;
+    char *dup = my_strdup(str);
+    if (!dup) return 0;
+    printf("Duplicate: %s\n", dup);
+    free(dup);
+    return 0;
+}
