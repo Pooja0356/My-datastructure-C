@@ -1,0 +1,17 @@
+#include<stdio.h>
+int main(){
+    int a[]={1,5,7,2,4,6};
+    int n=sizeof(a)/sizeof(a[0]);
+    int index=4;
+    int newval=88;
+    if(index>=0 && index<n){
+    a[index]=newval;
+    for(int i=0;i<n;i++){
+        printf("%d ",a[i]);
+}
+}
+else 
+{
+    printf("Out of range");
+}
+}
